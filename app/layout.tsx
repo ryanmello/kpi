@@ -45,14 +45,6 @@ export default function RootLayout({
 {/* 
   
   Project Notes
-
-  Create position
-  Create department
-
-  Update the user
-    - add a positionId
-    - add a departmentId
-    - add a supervisorId
   
   Create projects
     - projects should have deliverables

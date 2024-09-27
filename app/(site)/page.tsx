@@ -26,9 +26,9 @@ import { getDepartments } from "../actions/getDepartments";
 const page = async () => {
   const session = await auth();
   const user = (await getUserByEmail(session?.user?.email)) as User;
-  const users = await getUsers() as User[];
-  const positions = await getPositions() as Position[];
-  const departments = await getDepartments() as Department[];
+  // const users = await getUsers() as User[];
+  // const positions = await getPositions() as Position[];
+  // const departments = await getDepartments() as Department[];
 
   return (
     <div className="flex-col md:flex">
@@ -42,14 +42,14 @@ const page = async () => {
         </div>
       </div>
 
-      <PositionForm />
+      {/* <PositionForm />
       <DepartmentForm />
       <UpdateUserForm
         user={user}
         users={users}
         positions={positions}
         departments={departments}
-      />
+      /> */}
 
       {/* <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
