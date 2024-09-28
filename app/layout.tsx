@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import AuthContext from "./context/AuthContext";
 import { Toaster } from "@/components/ui/toaster";
+import { MainNav } from "./(site)/components/MainNav";
+import { UserNav } from "./(site)/components/UserNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +36,18 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" storageKey="kpi">
           <AuthContext>
             <Toaster />
+            <div className="flex-col md:flex">
+              <div className="border-b">
+                <div className="flex h-16 items-center px-4">
+                  <MainNav className="mx-6" />
+                  <div className="ml-auto flex items-center space-x-4">
+                    {/* <Search /> */}
+                    {/* <UserNav user={user} /> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {children}
           </AuthContext>
         </ThemeProvider>
@@ -42,7 +56,8 @@ export default function RootLayout({
   );
 }
 
-{/* 
+{
+  /* 
   
   Project Notes
   
@@ -54,4 +69,5 @@ export default function RootLayout({
     - connect the user and the projects
     - provide metrics
 
-    */}
+    */
+}
