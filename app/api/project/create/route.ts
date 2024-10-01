@@ -12,11 +12,12 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
 
     const requestData = await req.json();
-    const { name } = requestData;
+    const { name, status } = requestData;
 
     const project = await db.project.create({
       data: {
         name,
+        status,
       },
     });
 

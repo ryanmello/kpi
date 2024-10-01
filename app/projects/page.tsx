@@ -1,119 +1,40 @@
-"use client";
+import { getProjects } from "../actions/getProjects";
+import CreateProjectModal from "./components/CreateProjectModal";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import axios from "axios";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-type FormData = {
-  name: string;
-};
-
-const formSchema = z.object({
-  name: z.string().min(2).max(50),
-});
-
-const Projects = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { toast } = useToast();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-    },
-  });
-  
-  const { reset } = form;
-
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      const response = await axios.post("/api/project/create", data);
-      toast({
-        title: "Success",
-        description: `Project "${response.data.name}" created successfully!`,
-        variant: "default",
-      });
-      setIsOpen(false);
-      reset();
-    } catch (error) {
-      console.error("Error creating project:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create project. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
+const Projects = async () => {
+  const projects = await getProjects();
   return (
-    <div className="container mx-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold">Projects</h1>
-        <Button size="sm" onClick={() => setIsOpen(true)}>
-          +
-        </Button>
+    <div className="container mx-auto mt-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-semibold">Projects</h1>
+        <CreateProjectModal />
       </div>
 
-      {/* Modal for creating a project */}
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create New Project</DialogTitle>
-          </DialogHeader>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                name="name"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Project Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter project name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DialogFooter>
-                <Button
-                  variant="secondary"
-                  onClick={() => {
-                    setIsOpen(false);
-                    reset();
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">Create</Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {projects.map((project) => (
+          <Card
+            key={project.id}
+            className="cursor-pointer hover:border-zinc-600"
+          >
+            <CardHeader>
+              <CardTitle>{project.name}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-center">
+                <Badge variant="secondary">{project.status}</Badge>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
-      {/* Placeholder for project list */}
-      <div className="mt-4">{/* Render list of projects here */}</div>
+      {projects.length === 0 && (
+        <p className="text-center text-muted-foreground mt-8">
+          No projects found. Create your first project!
+        </p>
+      )}
     </div>
   );
 };

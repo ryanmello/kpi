@@ -50,6 +50,7 @@ model KPI {
 model Project {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String
+  status       String
   deliverables Deliverable[]
   kpis         KPI[]
 }
