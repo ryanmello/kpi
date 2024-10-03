@@ -2,6 +2,7 @@ import { getProjects } from "../actions/getProjects";
 import CreateProjectModal from "./components/CreateProjectModal";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import ProjectCard from "./components/ProjectCard";
 
 const Projects = async () => {
   const projects = await getProjects();
@@ -14,19 +15,7 @@ const Projects = async () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project) => (
-          <Card
-            key={project.id}
-            className="cursor-pointer hover:border-zinc-600"
-          >
-            <CardHeader>
-              <CardTitle>{project.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <Badge variant="secondary">{project.status}</Badge>
-              </div>
-            </CardContent>
-          </Card>
+          <ProjectCard project={project} />
         ))}
       </div>
 
