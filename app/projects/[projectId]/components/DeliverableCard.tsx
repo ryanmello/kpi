@@ -7,6 +7,7 @@ import { DeliverableT } from "@/types";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -22,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Trash, Pencil } from "lucide-react";
+import { Trash, Pencil, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
@@ -33,12 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import DeliverableTasks from "./DeliverableTasks";
 
 const deliverableSchema = z.object({
   name: z.string().min(2).max(50),
@@ -220,9 +216,10 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
               </Button>
             </DialogTrigger>
             <DialogContent>
-              <DialogTitle>
+              <DialogTitle>Are you sure?</DialogTitle>
+              <DialogDescription>
                 Are you sure you want to delete this deliverable?
-              </DialogTitle>
+              </DialogDescription>
               <div className="flex space-x-4">
                 <DialogTrigger asChild>
                   <Button variant="outline">Cancel</Button>
@@ -247,6 +244,8 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
         {deliverable.comments && (
           <p className="mt-2 text-sm text-zinc-500">{deliverable.comments}</p>
         )}
+
+        <DeliverableTasks deliverable={deliverable} />
       </CardContent>
     </Card>
   );

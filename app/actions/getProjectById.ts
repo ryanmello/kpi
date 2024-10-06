@@ -7,7 +7,11 @@ export const getProjectById = async (projectId: string) => {
         id: projectId,
       },
       include: {
-        deliverables: true,
+        deliverables: {
+          include: {
+            tasks: true,
+          },
+        },
       },
     });
     return project;

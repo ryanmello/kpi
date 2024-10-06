@@ -23,11 +23,14 @@ export async function POST(req: Request) {
       deliverableId,
     } = requestData;
 
+    const formattedStartDate = new Date(startDate);
+    const formattedEndDate = endDate ? new Date(endDate) : null;
+
     const task = await db.task.create({
       data: {
         description,
-        startDate,
-        endDate,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
         timeSpent,
         progressAchieved,
         status,
@@ -38,7 +41,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(task);
   } catch (error) {
-    console.log("/api/deliverable/create", error);
+    console.log("/api/task/create", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

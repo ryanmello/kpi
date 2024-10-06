@@ -70,7 +70,7 @@ model Task {
   id               String      @id @default(auto()) @map("_id") @db.ObjectId
   description      String
   startDate        DateTime
-  endDate          DateTime
+  endDate          DateTime?
   timeSpent        Float?
   progressAchieved Float?
   status           String
