@@ -51,7 +51,7 @@ model Project {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   status       String
-  deliverables Deliverable[]
+  deliverables Deliverable[] @relation("ProjectToDeliverable")
   kpis         KPI[]
 }
 
@@ -62,8 +62,8 @@ model Deliverable {
   status    String
   comments  String?
   projectId String  @db.ObjectId
-  project   Project @relation(fields: [projectId], references: [id])
-  tasks     Task[]
+  project   Project @relation("ProjectToDeliverable", fields: [projectId], references: [id], onDelete: Cascade)
+  tasks     Task[]  @relation("DeliverableToTask")
 }
 
 model Task {
@@ -76,5 +76,5 @@ model Task {
   status           String
   comments         String?
   deliverableId    String      @db.ObjectId
-  deliverable      Deliverable @relation(fields: [deliverableId], references: [id])
+  deliverable      Deliverable @relation("DeliverableToTask", fields: [deliverableId], references: [id], onDelete: Cascade)
 }
