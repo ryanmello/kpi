@@ -41,3 +41,22 @@ export default function RootLayout({
     </html>
   );
 }
+
+{/* 
+  
+  Project Notes
+
+  Update the user
+    - add a positionId
+    - add a departmentId
+    - add a supervisorId
+  
+  Create projects
+    - projects should have deliverables
+    - deliverables should have tasks
+  
+  Create KPIs
+    - connect the user and the projects
+    - provide metrics
+
+    */}
