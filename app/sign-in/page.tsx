@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/schemas";
+import { SignInSchema } from "@/schemas";
 import {
   Form,
   FormControl,
@@ -21,15 +21,15 @@ import { startTransition, useTransition } from "react";
 const SignInForm = () => {
   const [isPending, setIsPending] = useTransition();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof SignInSchema>>({
+    resolver: zodResolver(SignInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof SignInSchema>) => {
     startTransition(() => {
       signIn(values);
     });
