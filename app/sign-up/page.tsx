@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInSchema } from "@/schemas";
+import { SignUpSchema } from "@/schemas";
 import {
   Form,
   FormControl,
@@ -21,15 +21,16 @@ import { startTransition, useTransition } from "react";
 const SignUpForm = () => {
   const [isPending, setIsPending] = useTransition();
 
-  const form = useForm<z.infer<typeof SignInSchema>>({
-    resolver: zodResolver(SignInSchema),
+  const form = useForm<z.infer<typeof SignUpSchema>>({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof SignInSchema>) => {
+  const onSubmit = (values: z.infer<typeof SignUpSchema>) => {
     startTransition(() => {
       signIn(values);
     });
@@ -39,6 +40,22 @@ const SignUpForm = () => {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input disabled={isPending} placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
