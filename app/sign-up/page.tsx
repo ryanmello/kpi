@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signIn } from "../actions/sign-in";
+import { signUp } from "../actions/sign-up";
 import { startTransition, useTransition } from "react";
 
 const SignUpForm = () => {
@@ -32,15 +32,15 @@ const SignUpForm = () => {
 
   const onSubmit = (values: z.infer<typeof SignUpSchema>) => {
     startTransition(() => {
-      signIn(values);
+      signUp(values);
     });
   };
 
   return (
-    <div>
+    <div className="w-1/3">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
+          <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
