@@ -16,7 +16,7 @@ export const signIn = async (values: z.infer<typeof SignInSchema>) => {
   const { email, password } = validatedFields.data;
 
   try {
-    await signInF("credntials", {
+    await signInF("credentials", {
       email,
       password,
       redirectTo: DEFAULT_SIGN_IN_REDIRECT,
