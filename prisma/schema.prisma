@@ -49,30 +49,31 @@ model KPI {
 
 model Project {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  projectName  String
+  name         String
   deliverables Deliverable[]
   kpis         KPI[]
 }
 
 model Deliverable {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  progress  Float?
+  status    String
+  comments  String?
   projectId String  @db.ObjectId
   project   Project @relation(fields: [projectId], references: [id])
   tasks     Task[]
-  progress  Float
-  status    String
-  comments  String?
 }
 
 model Task {
   id               String      @id @default(auto()) @map("_id") @db.ObjectId
-  deliverableId    String      @db.ObjectId
-  deliverable      Deliverable @relation(fields: [deliverableId], references: [id])
   description      String
   startDate        DateTime
   endDate          DateTime
-  timeSpent        Float
-  progressAchieved Float
+  timeSpent        Float?
+  progressAchieved Float?
   status           String
   comments         String?
+  deliverableId    String      @db.ObjectId
+  deliverable      Deliverable @relation(fields: [deliverableId], references: [id])
 }
