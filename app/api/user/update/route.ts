@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(null);
+    return NextResponse.json(updatedUser);
   } catch (error) {
     console.error("/api/user/update", error);
     return new NextResponse("Internal Error", { status: 500 });
