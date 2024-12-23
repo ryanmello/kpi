@@ -13,6 +13,7 @@ model User {
   username     String?     @unique
   email        String      @unique
   password     String
+  role         String      @default("user")
   positionId   String?     @db.ObjectId
   position     Position?   @relation(fields: [positionId], references: [id])
   departmentId String?     @db.ObjectId

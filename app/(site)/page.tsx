@@ -1,19 +1,34 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MainNav } from "./components/MainNav"
-import { Search } from "./components/Search"
-import { UserNav } from "./components/UserNav"
-import { CalendarDateRangePicker } from "./components/DateRangePicker"
-import { Overview } from "./components/Overview"
-import { RecentSales } from "./components/RecentSales"
-import { auth } from "@/auth"
-import { getUserByEmail } from "@/data/user"
-import { User } from "@prisma/client"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MainNav } from "./components/MainNav";
+import { Search } from "./components/Search";
+import { UserNav } from "./components/UserNav";
+import { CalendarDateRangePicker } from "./components/DateRangePicker";
+import { Overview } from "./components/Overview";
+import { RecentSales } from "./components/RecentSales";
+import { auth } from "@/auth";
+import { getUserByEmail } from "@/data/user";
+import { Department, Position, User } from "@prisma/client";
+import PositionForm from "./components/PositionForm";
+import DepartmentForm from "./components/DepartmentForm";
+import UpdateUserForm from "./components/UpdateUserForm";
+import { getUsers } from "../actions/getUsers";
+import { getPositions } from "../actions/getPositions";
+import { getDepartments } from "../actions/getDepartments";
 
 const page = async () => {
   const session = await auth();
-  const user = await getUserByEmail(session?.user?.email) as User;
+  const user = (await getUserByEmail(session?.user?.email)) as User;
+  const users = await getUsers() as User[];
+  const positions = await getPositions() as Position[];
+  const departments = await getDepartments() as Department[];
 
   return (
     <div className="flex-col md:flex">
@@ -27,6 +42,14 @@ const page = async () => {
         </div>
       </div>
 
+      <PositionForm />
+      <DepartmentForm />
+      <UpdateUserForm
+        user={user}
+        users={users}
+        positions={positions}
+        departments={departments}
+      />
 
       {/* <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
@@ -173,6 +196,6 @@ const page = async () => {
       </div> */}
     </div>
   );
-}
+};
 
-export default page
+export default page;
