@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,6 +26,13 @@ import { Trash, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const deliverableSchema = z.object({
   name: z.string().min(2).max(50),
@@ -72,7 +78,6 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
         description: `Deliverable "${response.data.name}" updated successfully!`,
         variant: "default",
       });
-      reset();
       router.refresh();
     } catch (error) {
       console.error("Error updating deliverable:", error);
@@ -156,12 +161,29 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
                   />
                   <FormField
                     name="status"
+                    control={form.control}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Status</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Status" {...field} />
-                        </FormControl>
+                        <FormLabel>Project Status</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a status" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Not Started">
+                              Not Started
+                            </SelectItem>
+                            <SelectItem value="In Progress">
+                              In Progress
+                            </SelectItem>
+                            <SelectItem value="Completed">Completed</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
