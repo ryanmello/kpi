@@ -37,7 +37,7 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   status: z.enum(["Not Started", "In Progress", "Completed"]),
-  projectId: z.string().min(1), // Assuming projectId is passed when opening the modal
+  projectId: z.string(),
   progress: z.number().optional(),
   comments: z.string().optional(),
 });
@@ -52,7 +52,7 @@ const CreateDeliverableModal = ({ projectId }: { projectId: string }) => {
     defaultValues: {
       name: "",
       status: "Not Started",
-      projectId: projectId, // Set projectId dynamically when opening the modal
+      projectId: projectId,
       progress: 0,
       comments: "",
     },
