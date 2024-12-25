@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -44,6 +45,7 @@ const formSchema = z.object({
 const CreateDeliverableModal = ({ projectId }: { projectId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,6 +70,7 @@ const CreateDeliverableModal = ({ projectId }: { projectId: string }) => {
       });
       setIsOpen(false);
       reset();
+      router.refresh();
     } catch (error) {
       1;
       console.error("Error creating deliverable:", error);
