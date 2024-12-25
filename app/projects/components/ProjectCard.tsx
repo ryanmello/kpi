@@ -4,14 +4,25 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Project } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-const ProjectCard = ({ project }: { project: Project }) => {
+const ProjectCard = ({
+  project,
+  disableClick,
+}: {
+  project: Project;
+  disableClick: boolean;
+}) => {
   const router = useRouter();
+
   return (
     <Card
-      key={project.id}
-      className="cursor-pointer hover:border-zinc-600"
-      onClick={() => router.push(`/projects/${project.id}`)}
+      className={cn(!disableClick && "cursor-pointer hover:border-zinc-600")}
+      onClick={() => {
+        if (!disableClick) {
+          router.push(`/projects/${project.id}`);
+        }
+      }}
     >
       <CardHeader>
         <CardTitle>{project.name}</CardTitle>

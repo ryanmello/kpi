@@ -6,6 +6,9 @@ export const getProjectById = async (projectId: string) => {
       where: {
         id: projectId,
       },
+      include: {
+        deliverables: true,
+      },
     });
     return project;
   } catch (error) {
