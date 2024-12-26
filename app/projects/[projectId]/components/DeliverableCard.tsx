@@ -119,7 +119,7 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
         <div>
           <CardTitle>{deliverable.name}</CardTitle>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex">
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon">

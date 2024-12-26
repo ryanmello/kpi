@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -48,9 +49,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import TaskCard from "./TaskCard";
+import { min } from "date-fns";
 
 const taskSchema = z.object({
-  description: z.string(),
+  description: z.string().min(1),
   startDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: "Start date must be a valid date.",
   }),
@@ -61,24 +64,17 @@ const taskSchema = z.object({
       message: "End date must be a valid date.",
     }),
   timeSpent: z
-    .string()
+    .number()
     .optional()
-    .refine((val) => val === undefined || !isNaN(Number(val)), {
-      message: "Time spent must be a valid number.",
-    })
-    .transform((val) => (val ? Number(val) : undefined)),
+    .refine((val) => val === undefined || val >= 0, {
+      message: "Time spent must be a non-negative number.",
+    }),
   progressAchieved: z
-    .string()
+    .number()
     .optional()
-    .refine(
-      (val) =>
-        val === undefined ||
-        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 100),
-      {
-        message: "Progress achieved must be a number between 0 and 100.",
-      }
-    )
-    .transform((val) => (val ? Number(val) : undefined)),
+    .refine((val) => val === undefined || (val >= 0 && val <= 100), {
+      message: "Progress achieved must be a number between 0 and 100.",
+    }),
   status: z.enum(["Not Started", "In Progress", "Completed"]),
   comments: z.string().optional(),
 });
@@ -112,9 +108,8 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
         description: "Task created successfully!",
         variant: "default",
       });
-      console.log(response);
       form.reset();
-      // console.log(updatedData);
+      router.refresh();
     } catch (error) {
       console.error("Error creating task:", error);
       toast({
@@ -258,77 +253,7 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
       </div>
       <div>
         {deliverable.tasks.map((task) => (
-          <Card
-            key={task.id}
-            className="overflow-hidden transition-shadow hover:shadow-lg"
-          >
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold line-clamp-2">
-                    {task.description}
-                  </h3>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="p-1 rounded-full">
-                      <MoreVertical className="w-5 h-5 text-muted-foreground" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <Pencil className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Trash className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <CalendarIcon className="w-4 h-4" />
-                  <span>
-                    {new Date(task.startDate).toLocaleDateString()} -{" "}
-                    {task.endDate
-                      ? new Date(task.endDate).toLocaleDateString()
-                      : "Ongoing"}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <Badge
-                    variant={
-                      task.status === "Completed" ? "default" : "secondary"
-                    }
-                    className="text-xs font-medium"
-                  >
-                    {task.status}
-                  </Badge>
-                  {task.progressAchieved !== undefined && (
-                    <div className="text-sm font-medium">
-                      Progress: {task.progressAchieved}%
-                    </div>
-                  )}
-                </div>
-
-                {task.timeSpent !== undefined && (
-                  <div className="flex items-center space-x-2 text-sm">
-                    <ClockIcon className="w-4 h-4 text-gray-400" />
-                    <span>{task.timeSpent} hours spent</span>
-                  </div>
-                )}
-
-                {task.comments && (
-                  <div className="pt-2 mt-2 border-t border-gray-200">
-                    <div className="flex items-start space-x-2">
-                      <MessageSquareIcon className="w-4 h-4 mt-1 text-gray-400" />
-                      <p className="text-sm text-gray-600">{task.comments}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          <TaskCard key={task.id} task={task} />
         ))}
       </div>
     </div>

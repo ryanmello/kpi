@@ -23,14 +23,17 @@ export async function POST(req: Request) {
       comments,
     } = requestData;
 
+    const formattedStartDate = new Date(startDate);
+    const formattedEndDate = endDate ? new Date(endDate) : null;
+
     const task = await db.task.update({
       where: {
         id,
       },
       data: {
         description,
-        startDate,
-        endDate,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
         timeSpent,
         progressAchieved,
         status,

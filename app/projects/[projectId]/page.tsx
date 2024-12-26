@@ -10,7 +10,7 @@ const Project = async ({ params }: { params: { projectId: string } }) => {
   const project = (await getProjectById(projectId)) as ProjectT;
 
   return (
-    <div className="container mx-auto mt-4">
+    <div className="container mx-auto mt-4 mb-12">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">Project</h2>
       </div>
