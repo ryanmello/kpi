@@ -145,22 +145,7 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    name="progress"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Progress (%)</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Progress"
-                            {...field}
-                            value={field.value}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+
                   <FormField
                     name="status"
                     control={form.control}
@@ -190,6 +175,24 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
                       </FormItem>
                     )}
                   />
+
+                  <FormField
+                    name="progress"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Progress (%)</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Progress"
+                            {...field}
+                            value={field.value}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     name="comments"
                     render={({ field }) => (

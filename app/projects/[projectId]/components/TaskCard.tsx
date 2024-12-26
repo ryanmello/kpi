@@ -67,7 +67,7 @@ const taskSchema = z.object({
     .refine((val) => val === undefined || val >= 0, {
       message: "Time spent must be a non-negative number.",
     }),
-  progressAchieved: z
+    progress: z
     .number()
     .optional()
     .refine((val) => val === undefined || (val >= 0 && val <= 100), {
@@ -101,7 +101,7 @@ const TaskCard = ({ task }: { task: TaskT }) => {
         ? new Date(task.endDate).toISOString().slice(0, 10)
         : undefined,
       timeSpent: task.timeSpent ?? undefined,
-      progressAchieved: task.progressAchieved ?? undefined,
+      progress: task.progress ?? undefined,
       comments: task.comments ?? undefined,
       deliverableId: task.deliverableId,
     },
@@ -253,7 +253,7 @@ const TaskCard = ({ task }: { task: TaskT }) => {
                       />
 
                       <FormField
-                        name="progressAchieved"
+                        name="progress"
                         control={form.control}
                         render={({ field }) => (
                           <FormItem>
@@ -367,9 +367,9 @@ const TaskCard = ({ task }: { task: TaskT }) => {
             >
               {task.status}
             </Badge>
-            {task.progressAchieved !== undefined && (
+            {task.progress !== undefined && (
               <div className="text-sm font-medium">
-                Progress: {task.progressAchieved}%
+                Progress: {task.progress}%
               </div>
             )}
           </div>

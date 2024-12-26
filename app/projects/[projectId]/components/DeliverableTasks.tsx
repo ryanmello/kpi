@@ -69,7 +69,7 @@ const taskSchema = z.object({
     .refine((val) => val === undefined || val >= 0, {
       message: "Time spent must be a non-negative number.",
     }),
-  progressAchieved: z
+  progress: z
     .number()
     .optional()
     .refine((val) => val === undefined || (val >= 0 && val <= 100), {
@@ -89,7 +89,7 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
       startDate: "",
       endDate: "",
       timeSpent: 0,
-      progressAchieved: 0,
+      progress: 0,
       status: "Not Started",
       comments: "",
     },
@@ -173,30 +173,7 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  name="timeSpent"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Time Spent (hours)</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="0" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  name="progressAchieved"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Progress Achieved (%)</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="0" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
                 <FormField
                   name="status"
                   control={form.control}
@@ -226,6 +203,44 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  name="progress"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Progress Achieved</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : Number(e.target.value)
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="timeSpent"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Time Spent</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="0" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   name="comments"
                   control={form.control}

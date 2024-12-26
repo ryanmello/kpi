@@ -4,7 +4,7 @@ export type TaskT = {
   startDate: Date;
   endDate?: Date;
   timeSpent?: number;
-  progressAchieved?: number;
+  progress?: number;
   status: string;
   comments?: string;
   deliverableId: string;

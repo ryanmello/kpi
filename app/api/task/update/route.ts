@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       startDate,
       endDate,
       timeSpent,
-      progressAchieved,
+      progress,
       status,
       comments,
     } = requestData;
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
         startDate: formattedStartDate,
         endDate: formattedEndDate,
         timeSpent,
-        progressAchieved,
+        progress,
         status,
         comments,
       },

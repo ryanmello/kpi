@@ -67,14 +67,14 @@ model Deliverable {
 }
 
 model Task {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
-  description      String
-  startDate        DateTime
-  endDate          DateTime?
-  timeSpent        Float?
-  progressAchieved Float?
-  status           String
-  comments         String?
-  deliverableId    String      @db.ObjectId
-  deliverable      Deliverable @relation("DeliverableToTask", fields: [deliverableId], references: [id], onDelete: Cascade)
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  description   String
+  startDate     DateTime
+  endDate       DateTime?
+  timeSpent     Float?
+  progress      Float?
+  status        String
+  comments      String?
+  deliverableId String      @db.ObjectId
+  deliverable   Deliverable @relation("DeliverableToTask", fields: [deliverableId], references: [id], onDelete: Cascade)
 }

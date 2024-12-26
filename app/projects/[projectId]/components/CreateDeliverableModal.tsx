@@ -38,7 +38,12 @@ const formSchema = z.object({
   name: z.string().min(2).max(50),
   status: z.enum(["Not Started", "In Progress", "Completed"]),
   projectId: z.string(),
-  progress: z.number().optional(),
+  progress: z
+    .number()
+    .optional()
+    .refine((val) => val === undefined || (val >= 0 && val <= 100), {
+      message: "Progress achieved must be a number between 0 and 100.",
+    }),
   comments: z.string().optional(),
 });
 
@@ -62,7 +67,12 @@ const CreateDeliverableModal = ({ projectId }: { projectId: string }) => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post("/api/deliverable/create", data);
+      const updatedData = {
+        ...data,
+        progress: Number(data.progress),
+      };
+
+      const response = await axios.post("/api/deliverable/create", updatedData);
       toast({
         title: "Success",
         description: `Deliverable "${response.data.name}" created successfully!`,
@@ -136,17 +146,18 @@ const CreateDeliverableModal = ({ projectId }: { projectId: string }) => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Progress</FormLabel>
+                  <FormLabel>Progress Achieved (%)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Enter progress"
-                      {...field}
-                      value={field.value || ""}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        field.onChange(value === "" ? "" : parseFloat(value));
-                      }}
+                      value={field.value ?? ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === ""
+                            ? undefined
+                            : Number(e.target.value)
+                        )
+                      }
                     />
                   </FormControl>
                   <FormMessage />
