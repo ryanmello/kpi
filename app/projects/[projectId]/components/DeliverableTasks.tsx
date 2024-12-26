@@ -243,9 +243,11 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  Create Task
-                </Button>
+                <DialogTrigger asChild>
+                  <Button type="submit" className="w-full">
+                    Create Task
+                  </Button>
+                </DialogTrigger>
               </form>
             </Form>
           </DialogContent>
