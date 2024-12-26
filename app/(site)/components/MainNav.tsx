@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { cn } from "@/lib/utils"
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export function MainNav({
   className,
@@ -12,7 +12,7 @@ export function MainNav({
     >
       <Link
         href="/"
-        className="text-sm font-medium transition-colors hover:text-primary"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Overview
       </Link>
@@ -35,5 +35,5 @@ export function MainNav({
         Settings
       </Link>
     </nav>
-  )
+  );
 }
