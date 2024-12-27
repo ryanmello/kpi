@@ -30,13 +30,14 @@ const KPIForm = ({
 
   const onSubmit = async (data: any) => {
     try {
-      console.log(data);
-      //   toast({
-      //     title: "Success",
-      //     description: "KPI created successfully!",
-      //     variant: "default",
-      //   });
-      //   reset();
+      // console.log(data);
+      await axios.post("/api/kpi/create", data);
+      toast({
+        title: "Success",
+        description: "KPI created successfully!",
+        variant: "default",
+      });
+    //   reset();
     } catch (error) {
       toast({
         title: "Error",
@@ -78,20 +79,10 @@ const KPIForm = ({
     }
   };
 
-  const groupTasksByDeliverable = (tasks: any[]) => {
-    return tasks.reduce((groupedTasks, task) => {
-      if (!groupedTasks[task.deliverableId]) {
-        groupedTasks[task.deliverableId] = [];
-      }
-      groupedTasks[task.deliverableId].push(task);
-      return groupedTasks;
-    }, {} as Record<string, any[]>);
-  };
-
   const formatDate = (dateString: string) => {
-    if (!dateString) return ""; // return empty string if no date provided
+    if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toISOString().split("T")[0]; // Format to 'YYYY-MM-DD'
+    return date.toISOString().split("T")[0];
   };
 
   return (
