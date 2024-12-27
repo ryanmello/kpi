@@ -82,7 +82,6 @@ model ProjectKPI {
   id           String           @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   status       String
-  month        DateTime
   deliverables DeliverableKPI[]
   kpis         KPI[]
 }

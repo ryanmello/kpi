@@ -2,22 +2,23 @@ export type TaskT = {
   id: string;
   description: string;
   startDate: Date;
-  endDate?: Date;
-  timeSpent?: number;
-  progress?: number;
+  endDate?: Date | null;
+  timeSpent?: number | null;
+  progress?: number | null;
   status: string;
-  comments?: string;
+  comments?: string | null;
   deliverableId: string;
 };
 
 export type DeliverableT = {
   id: string;
   name: string;
-  progress?: number;
+  progress?: number | null;
   status: string;
-  comments?: string;
+  comments?: string | null;
   tasks: TaskT[];
   projectId: string;
+  project?: ProjectT;
 };
 
 export type ProjectT = {
@@ -25,9 +26,5 @@ export type ProjectT = {
   name: string;
   status: string;
   deliverables: DeliverableT[];
-  tasks: TaskT[];
   kpis?: any[];
 };
-
-
-
