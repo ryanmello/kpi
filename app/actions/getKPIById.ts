@@ -1,18 +1,10 @@
 import db from "@/lib/db";
 
-export const getKPIByIdAndMonth = async (
-  userId: string,
-  month: string,
-  year: string
-) => {
-  const dateString = `${year}-${month}-01T00:00:00.000+00:00`;
-  const date = new Date(dateString);
-
+export const getKPIById = async (kpiId: string) => {
   try {
-    const KPI = await db.kPI.findMany({
+    const KPI = await db.kPI.findUnique({
       where: {
-        userId,
-        month: date,
+        id: kpiId,
       },
       include: {
         projectKPI: {
@@ -28,6 +20,6 @@ export const getKPIByIdAndMonth = async (
     });
     return KPI;
   } catch (error) {
-    return [];
+    return null;
   }
 };

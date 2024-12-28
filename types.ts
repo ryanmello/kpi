@@ -28,3 +28,23 @@ export type ProjectT = {
   deliverables: DeliverableT[];
   kpis?: any[];
 };
+
+export type ProjectKPI = {
+  id: string;
+  name: string;
+  status: string;
+  deliverables: DeliverableT[];
+};
+
+export type KPI = {
+  id: string;
+  userId: string;
+  month: Date; // Already matches the Date type in the provided data
+  projectKPIId: string;
+  projectKPI: {
+    id: string;
+    name: string;
+    status: string;
+    deliverables: DeliverableT[]; // Already defined earlier
+  };
+};
