@@ -109,3 +109,4 @@ model TaskKPI {
   deliverableId String         @db.ObjectId
   deliverable   DeliverableKPI @relation(fields: [deliverableId], references: [id])
 }
+

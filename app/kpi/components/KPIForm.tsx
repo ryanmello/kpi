@@ -37,7 +37,7 @@ const KPIForm = ({
         description: "KPI created successfully!",
         variant: "default",
       });
-    //   reset();
+      //   reset();
     } catch (error) {
       toast({
         title: "Error",
@@ -60,6 +60,7 @@ const KPIForm = ({
       setValue(
         "deliverableKPIs",
         project.deliverables.map((deliverable) => ({
+          id: deliverable.id,
           name: deliverable.name,
           progress: deliverable.progress || 0,
           status: deliverable.status,

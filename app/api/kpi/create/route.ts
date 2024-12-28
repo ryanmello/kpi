@@ -55,30 +55,37 @@ export async function POST(req: Request) {
     );
 
     // Create TaskKPIs for each task from the received taskKPIs array
+    const deliverableIdMap = createdDeliverables.reduce(
+      (map: any, deliverable: any, index: number) => {
+        map[deliverableKPIs[index].id] = deliverable.id; // Match original deliverableKPIs.id to createdDeliverable.id
+        return map;
+      },
+      {}
+    );
+
+    // Create TaskKPIs with correct deliverable associations
     const createdTasks = await Promise.all(
       taskKPIs.map(async (task: any) => {
-        // Ensure both startDate and endDate are in correct format and handle time zone
-        const parsedStartDate = new Date(task.startDate); // Convert to Date object
-        const parsedEndDate = task.endDate ? new Date(task.endDate) : null; // Convert to Date if provided
+        const associatedDeliverableId = deliverableIdMap[task.deliverableId];
 
-        // Format dates to ensure they're in the correct ISO 8601 format
-        const formattedStartDate = parsedStartDate.toISOString(); // Ensures proper ISO format with time zone
-        const formattedEndDate = parsedEndDate
-          ? parsedEndDate.toISOString()
-          : null; // Format endDate if available
+        if (!associatedDeliverableId) {
+          throw new Error(
+            `No associated DeliverableKPI found for task: ${task.description}`
+          );
+        }
 
         console.log("Creating TaskKPI for:", task.description);
 
         return db.taskKPI.create({
           data: {
             description: task.description,
-            startDate: formattedStartDate, // Use formatted startDate
-            endDate: formattedEndDate, // Use formatted endDate
+            startDate: new Date(task.startDate).toISOString(), // Ensure ISO 8601 format
+            endDate: task.endDate ? new Date(task.endDate).toISOString() : null,
             timeSpent: task.timeSpent,
             progress: parseFloat(task.progress), // Ensure progress is a number
             status: task.status,
             comments: task.comments,
-            deliverableId: task.deliverableId, // Link to the correct DeliverableKPI
+            deliverableId: associatedDeliverableId, // Link to the correct created DeliverableKPI
           },
         });
       })
