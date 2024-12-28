@@ -15,6 +15,9 @@ export const getKPIs = async () => {
         },
         user: true,
       },
+      orderBy: {
+        month: "asc",
+      },
     });
     return KPI;
   } catch (error) {

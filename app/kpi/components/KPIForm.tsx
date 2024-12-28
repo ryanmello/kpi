@@ -87,7 +87,7 @@ const KPIForm = ({
   };
 
   return (
-    <div className="container mx-auto mt-4 w-1/2">
+    <div className="container mx-auto mt-4">
       <Card>
         <CardHeader>
           <CardTitle>Create KPI</CardTitle>
