@@ -4,7 +4,7 @@ import { getUsers } from "../actions/getUsers";
 import KPIForm from "./components/KPIForm";
 import KPITable from "./components/KPITable";
 
-const KPI = async () => {
+const KPIs = async () => {
   const users = await getUsers();
   const projects = await getProjects();
   const kpis = await getKPIs();
@@ -24,4 +24,4 @@ const KPI = async () => {
   );
 };
 
-export default KPI;
+export default KPIs;
