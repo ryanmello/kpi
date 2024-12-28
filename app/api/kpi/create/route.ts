@@ -76,13 +76,39 @@ export async function POST(req: Request) {
 
         console.log("Creating TaskKPI for:", task.description);
 
+        // Validate start and end dates
+        const startDate = new Date(task.startDate);
+        if (isNaN(startDate.getTime())) {
+          throw new Error(`Invalid start date for task: ${task.description}`);
+        }
+
+        const endDate = task.endDate ? new Date(task.endDate) : null;
+        if (endDate && isNaN(endDate.getTime())) {
+          throw new Error(`Invalid end date for task: ${task.description}`);
+        }
+
+        // Validate progress and timeSpent
+        const progress = parseFloat(task.progress);
+        if (isNaN(progress)) {
+          throw new Error(
+            `Invalid progress value for task: ${task.description}`
+          );
+        }
+
+        const timeSpent = parseFloat(task.timeSpent);
+        if (isNaN(timeSpent)) {
+          throw new Error(
+            `Invalid timeSpent value for task: ${task.description}`
+          );
+        }
+
         return db.taskKPI.create({
           data: {
             description: task.description,
-            startDate: new Date(task.startDate).toISOString(), // Ensure ISO 8601 format
-            endDate: task.endDate ? new Date(task.endDate).toISOString() : null,
-            timeSpent: task.timeSpent,
-            progress: parseFloat(task.progress), // Ensure progress is a number
+            startDate: startDate.toISOString(), // Convert to ISO string
+            endDate: endDate ? endDate.toISOString() : null, // Handle nullable endDate
+            timeSpent: timeSpent,
+            progress: progress,
             status: task.status,
             comments: task.comments,
             deliverableId: associatedDeliverableId, // Link to the correct created DeliverableKPI
