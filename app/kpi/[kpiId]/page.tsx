@@ -35,11 +35,11 @@ const KPICard = async ({ params }: { params: { kpiId: string } }) => {
     <div className="container mx-auto mt-8 px-4">
       <Card className="shadow-lg transition-all duration-300 hover:shadow-xl">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">
-            {kpi.projectKPI?.name}
+          <CardTitle>
+            Project: {kpi.projectKPI?.name}
           </CardTitle>
           <CardDescription>
-            {new Date(kpi.month).toLocaleString("default", {
+            Month: {new Date(kpi.month).toLocaleString("default", {
               month: "long",
               year: "numeric",
             })}
@@ -144,7 +144,7 @@ const KPICard = async ({ params }: { params: { kpiId: string } }) => {
                               </TableCell>
                               <TableCell>
                                 {task.timeSpent !== null
-                                  ? `${task.timeSpent} hours`
+                                  ? `${task.timeSpent}%`
                                   : "N/A"}
                               </TableCell>
                               <TableCell>

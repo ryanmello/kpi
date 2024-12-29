@@ -143,7 +143,6 @@ export async function POST(req: Request) {
             description: task.description,
             startDate: startDate.toISOString(),
             endDate: endDate ? endDate.toISOString() : null,
-            timeSpent: timeSpent,
             progress: progress,
             status: task.status,
             comments: task.comments,

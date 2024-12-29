@@ -338,30 +338,6 @@ const KPIForm = ({
                     )}
                   />
 
-                  {/* Time Spent */}
-                  <Controller
-                    name={`taskKPIs.${index}.timeSpent`}
-                    control={control}
-                    render={({ field }) => (
-                      <div>
-                        <Label>Time Spent (hours)</Label>
-                        <Input {...field} type="number" min={0} step={0.1} />
-                      </div>
-                    )}
-                  />
-
-                  {/* Progress */}
-                  <Controller
-                    name={`taskKPIs.${index}.progress`}
-                    control={control}
-                    render={({ field }) => (
-                      <div>
-                        <Label>Progress</Label>
-                        <Input {...field} type="number" min={0} max={100} />
-                      </div>
-                    )}
-                  />
-
                   {/* Status */}
                   <Controller
                     name={`taskKPIs.${index}.status`}
@@ -386,6 +362,30 @@ const KPIForm = ({
                             <SelectItem value="Completed">Completed</SelectItem>
                           </SelectContent>
                         </Select>
+                      </div>
+                    )}
+                  />
+
+                  {/* Time Spent */}
+                  <Controller
+                    name={`taskKPIs.${index}.timeSpent`}
+                    control={control}
+                    render={({ field }) => (
+                      <div>
+                        <Label>Time Spent</Label>
+                        <Input {...field} type="number" min={0} step={0.1} />
+                      </div>
+                    )}
+                  />
+
+                  {/* Progress */}
+                  <Controller
+                    name={`taskKPIs.${index}.progress`}
+                    control={control}
+                    render={({ field }) => (
+                      <div>
+                        <Label>Progress</Label>
+                        <Input {...field} type="number" min={0} max={100} />
                       </div>
                     )}
                   />

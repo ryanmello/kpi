@@ -9,11 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import {
   CalendarIcon,
-  ClockIcon,
   MessageSquareIcon,
-  MoreVertical,
   Pencil,
-  Plus,
   Trash,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -41,14 +38,8 @@ import {
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
-import { DeliverableT, TaskT } from "@/types";
+import { TaskT } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const taskSchema = z.object({
   description: z.string(),
@@ -61,13 +52,7 @@ const taskSchema = z.object({
     .refine((date) => date === undefined || !isNaN(Date.parse(date)), {
       message: "End date must be a valid date.",
     }),
-  timeSpent: z
-    .number()
-    .optional()
-    .refine((val) => val === undefined || val >= 0, {
-      message: "Time spent must be a non-negative number.",
-    }),
-    progress: z
+  progress: z
     .number()
     .optional()
     .refine((val) => val === undefined || (val >= 0 && val <= 100), {
@@ -100,7 +85,6 @@ const TaskCard = ({ task }: { task: TaskT }) => {
       endDate: task.endDate
         ? new Date(task.endDate).toISOString().slice(0, 10)
         : undefined,
-      timeSpent: task.timeSpent ?? undefined,
       progress: task.progress ?? undefined,
       comments: task.comments ?? undefined,
       deliverableId: task.deliverableId,
@@ -277,31 +261,6 @@ const TaskCard = ({ task }: { task: TaskT }) => {
                       />
 
                       <FormField
-                        name="timeSpent"
-                        control={form.control}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Time Spent (hours)</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                step="0.1"
-                                value={field.value ?? ""}
-                                onChange={(e) =>
-                                  field.onChange(
-                                    e.target.value === ""
-                                      ? undefined
-                                      : Number(e.target.value)
-                                  )
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
                         name="comments"
                         control={form.control}
                         render={({ field }) => (
@@ -373,13 +332,6 @@ const TaskCard = ({ task }: { task: TaskT }) => {
               </div>
             )}
           </div>
-
-          {task.timeSpent !== undefined && (
-            <div className="flex items-center space-x-2 text-sm">
-              <ClockIcon className="w-4 h-4 text-gray-400" />
-              <span>{task.timeSpent} hours spent</span>
-            </div>
-          )}
 
           {task.comments && (
             <div className="pt-2 mt-2 border-t border-gray-200">

@@ -12,16 +12,8 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
 
     const requestData = await req.json();
-    const {
-      id,
-      description,
-      startDate,
-      endDate,
-      timeSpent,
-      progress,
-      status,
-      comments,
-    } = requestData;
+    const { id, description, startDate, endDate, progress, status, comments } =
+      requestData;
 
     const formattedStartDate = new Date(startDate);
     const formattedEndDate = endDate ? new Date(endDate) : null;
@@ -34,7 +26,6 @@ export async function POST(req: Request) {
         description,
         startDate: formattedStartDate,
         endDate: formattedEndDate,
-        timeSpent,
         progress,
         status,
         comments,

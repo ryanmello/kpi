@@ -63,12 +63,6 @@ const taskSchema = z.object({
     .refine((date) => date === undefined || !isNaN(Date.parse(date)), {
       message: "End date must be a valid date.",
     }),
-  timeSpent: z
-    .number()
-    .optional()
-    .refine((val) => val === undefined || val >= 0, {
-      message: "Time spent must be a non-negative number.",
-    }),
   progress: z
     .number()
     .optional()
@@ -88,7 +82,6 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
       description: "",
       startDate: "",
       endDate: "",
-      timeSpent: 0,
       progress: 0,
       status: "Not Started",
       comments: "",
@@ -222,19 +215,6 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
                             )
                           }
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  name="timeSpent"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Time Spent</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="0" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
