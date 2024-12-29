@@ -97,7 +97,6 @@ const KPICard = async ({ params }: { params: { kpiId: string } }) => {
                               value={deliverable.progress}
                               className="w-full"
                             />
-
                           </div>
                         ) : (
                           "N/A"
@@ -132,10 +131,13 @@ const KPICard = async ({ params }: { params: { kpiId: string } }) => {
                               <TableCell>{task.status}</TableCell>
                               <TableCell>
                                 {task.progress !== null ? (
-                                  <Progress
-                                    value={task.progress}
-                                    className="w-full"
-                                  />
+                                  <div className="flex items-center gap-4">
+                                    <p>{task.progress}%</p>
+                                    <Progress
+                                      value={task.progress}
+                                      className="w-full"
+                                    />
+                                  </div>
                                 ) : (
                                   "N/A"
                                 )}
