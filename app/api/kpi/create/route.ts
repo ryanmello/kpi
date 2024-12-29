@@ -16,8 +16,7 @@ export async function POST(req: Request) {
     const { userId, month, projectId, projectKPI, deliverableKPIs, taskKPIs } =
       requestData;
 
-    // Convert month to a valid Date object
-    const parsedMonth = new Date(`${month}-01T00:00:00.000Z`); // Append 'T00:00:00.000Z' to match the desired format
+    const parsedMonth = new Date(`${month}-01T00:00:00.000Z`);
 
     // Create the ProjectKPI record
     const createdProjectKPI = await db.projectKPI.create({
@@ -27,12 +26,23 @@ export async function POST(req: Request) {
       },
     });
 
+    // updated project
+    await db.project.update({
+      where: {
+        id: projectId,
+      },
+      data: {
+        name: createdProjectKPI.name,
+        status: createdProjectKPI.status,
+      },
+    });
+
     // Create the KPI record (Project-level KPI)
     const createdKPI = await db.kPI.create({
       data: {
         userId,
-        month: parsedMonth, // Use parsed month as Date
-        projectKPIId: createdProjectKPI.id, // Link to the created ProjectKPI
+        month: parsedMonth,
+        projectKPIId: createdProjectKPI.id,
       },
     });
 
@@ -42,21 +52,34 @@ export async function POST(req: Request) {
         const createdDeliverable = await db.deliverableKPI.create({
           data: {
             name: deliverable.name,
-            progress: parseFloat(deliverable.progress), // Ensure progress is a number
+            progress: parseFloat(deliverable.progress),
             status: deliverable.status,
             comments: deliverable.comments,
             projectId: createdProjectKPI.id,
           },
         });
 
-        return createdDeliverable; // Return just the created Deliverable
+        // update existing deliverable
+        await db.deliverable.update({
+          where: {
+            id: deliverable.id,
+          },
+          data: {
+            name: deliverable.name,
+            progress: parseFloat(deliverable.progress),
+            status: deliverable.status,
+            comments: deliverable.comments,
+          },
+        });
+
+        return createdDeliverable;
       })
     );
 
     // Create TaskKPIs for each task from the received taskKPIs array
     const deliverableIdMap = createdDeliverables.reduce(
       (map: any, deliverable: any, index: number) => {
-        map[deliverableKPIs[index].id] = deliverable.id; // Match original deliverableKPIs.id to createdDeliverable.id
+        map[deliverableKPIs[index].id] = deliverable.id;
         return map;
       },
       {}
@@ -72,8 +95,6 @@ export async function POST(req: Request) {
             `No associated DeliverableKPI found for task: ${task.description}`
           );
         }
-
-        console.log("Creating TaskKPI for:", task.description);
 
         // Validate start and end dates
         const startDate = new Date(task.startDate);
@@ -101,18 +122,35 @@ export async function POST(req: Request) {
           );
         }
 
-        return db.taskKPI.create({
+        const createdTaskKPI = await db.taskKPI.create({
           data: {
             description: task.description,
-            startDate: startDate.toISOString(), // Convert to ISO string
-            endDate: endDate ? endDate.toISOString() : null, // Handle nullable endDate
+            startDate: startDate.toISOString(),
+            endDate: endDate ? endDate.toISOString() : null,
             timeSpent: timeSpent,
             progress: progress,
             status: task.status,
             comments: task.comments,
-            deliverableId: associatedDeliverableId, // Link to the correct created DeliverableKPI
+            deliverableId: associatedDeliverableId,
           },
         });
+
+        await db.task.update({
+          where: {
+            id: task.id,
+          },
+          data: {
+            description: task.description,
+            startDate: startDate.toISOString(),
+            endDate: endDate ? endDate.toISOString() : null,
+            timeSpent: timeSpent,
+            progress: progress,
+            status: task.status,
+            comments: task.comments,
+          },
+        });
+
+        return createdTaskKPI;
       })
     );
 
