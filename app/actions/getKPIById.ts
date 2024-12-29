@@ -16,6 +16,7 @@ export const getKPIById = async (kpiId: string) => {
             },
           },
         },
+        user: true,
       },
     });
     return KPI;
