@@ -12,7 +12,6 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
 
     const requestData = await req.json();
-    // console.log(requestData);
 
     const { userId, month, projectId, projectKPI, deliverableKPIs, taskKPIs } =
       requestData;

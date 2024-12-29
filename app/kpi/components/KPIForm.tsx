@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 const KPIForm = ({
   users,
@@ -25,19 +26,20 @@ const KPIForm = ({
   users: User[];
   projects: ProjectT[];
 }) => {
+  const router = useRouter();
   const { control, handleSubmit, watch, setValue, reset } = useForm();
   const [selectedProject, setSelectedProject] = useState<ProjectT | null>(null);
 
   const onSubmit = async (data: any) => {
     try {
-      // console.log(data);
       await axios.post("/api/kpi/create", data);
       toast({
         title: "Success",
         description: "KPI created successfully!",
         variant: "default",
       });
-      //   reset();
+      reset();
+      router.refresh();
     } catch (error) {
       toast({
         title: "Error",

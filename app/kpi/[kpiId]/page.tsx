@@ -20,8 +20,6 @@ const KPICard = async ({ params }: { params: { kpiId: string } }) => {
     );
   }
 
-  console.log(kpi.projectKPI.deliverables);
-
   return (
     <div className="container mx-auto mt-4">
       <Card className="shadow-lg">
