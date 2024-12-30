@@ -1,7 +1,7 @@
 const page = async () => {
   return (
-    <div className="flex-col md:flex">
-      
+    <div className="font-semibold p-12">
+      <p>Welcome!</p>
     </div>
   );
 };
