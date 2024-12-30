@@ -7,7 +7,6 @@ import { SignInSchema } from "@/schemas";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,7 +27,7 @@ import {
 } from "@/components/ui/card";
 
 const SignInForm = () => {
-  const [isPending, setIsPending] = useTransition();
+  const [isPending] = useTransition();
 
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -101,7 +100,7 @@ const SignInForm = () => {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-col items-center justify-center space-y-2">
-          <div className="text-sm text-gray-500">Don't have an account?</div>
+          <div className="text-sm text-gray-500">Don&apos;t have an account?</div>
           <Button variant="outline" className="w-full" asChild>
             <Link href="/sign-up">Sign Up</Link>
           </Button>

@@ -21,6 +21,7 @@ export const getKPIById = async (kpiId: string) => {
     });
     return KPI;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };

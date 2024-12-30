@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const KPICard = async ({ params }: { params: { kpiId: string } }) => {
+const KPICard = async ({ params }: { params: Promise<{ kpiId: string }> }) => {
   const { kpiId } = await params;
   const kpi = await getKPIById(kpiId);
 

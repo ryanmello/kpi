@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Trash, Pencil, Plus } from "lucide-react";
+import { Trash, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
@@ -60,7 +60,7 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
       name: deliverable.name,
       status: validStatus,
       progress: deliverable.progress?.toString(),
-      comments: deliverable.comments,
+      comments: deliverable.comments || "",
     },
   });
 

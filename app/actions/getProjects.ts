@@ -13,6 +13,7 @@ export const getProjects = async () => {
     });
     return projects;
   } catch (error) {
+    console.log(error);
     return [];
   }
 };

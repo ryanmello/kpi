@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import AuthContext from "./context/AuthContext";
 import { Toaster } from "@/components/ui/toaster";
 import { MainNav } from "./(site)/components/MainNav";
-import { UserNav } from "./(site)/components/UserNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
@@ -23,11 +23,6 @@ type FormData = {
   positionId: string;
   departmentId: string;
   supervisorId: string;
-};
-
-type Option = {
-  id: string;
-  name: string;
 };
 
 export default function UpdateUserForm({

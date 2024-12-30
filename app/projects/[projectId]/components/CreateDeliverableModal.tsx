@@ -82,7 +82,6 @@ const CreateDeliverableModal = ({ projectId }: { projectId: string }) => {
       reset();
       router.refresh();
     } catch (error) {
-      1;
       console.error("Error creating deliverable:", error);
       toast({
         title: "Error",

@@ -5,6 +5,7 @@ export const getPositions = async () => {
     const positions = await db.position.findMany();
     return positions;
   } catch (error) {
+    console.log(error);
     return [];
   }
 };

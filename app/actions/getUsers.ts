@@ -5,6 +5,7 @@ export const getUsers = async () => {
     const users = await db.user.findMany();
     return users;
   } catch (error) {
+    console.log(error);
     return [];
   }
 };

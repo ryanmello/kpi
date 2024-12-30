@@ -3,18 +3,11 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  CalendarIcon,
-  ClockIcon,
-  MessageSquareIcon,
-  MoreVertical,
-  Pencil,
   Plus,
-  Trash,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,7 +24,6 @@ import {
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -42,15 +34,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { DeliverableT } from "@/types";
-import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import TaskCard from "./TaskCard";
-import { min } from "date-fns";
 
 const taskSchema = z.object({
   description: z.string().min(1),
@@ -95,7 +79,7 @@ const DeliverableTasks = ({ deliverable }: { deliverable: DeliverableT }) => {
         ...data,
       };
 
-      const response = await axios.post("/api/task/create", updatedData);
+      await axios.post("/api/task/create", updatedData);
       toast({
         title: "Success",
         description: "Task created successfully!",

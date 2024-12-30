@@ -30,6 +30,7 @@ export const signIn = async (values: z.infer<typeof SignInSchema>) => {
           return { error: "Something went wrong" };
       }
     }
+    console.log(error);
 
     throw error;
   }

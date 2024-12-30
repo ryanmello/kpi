@@ -86,7 +86,7 @@ export async function POST(req: Request) {
     );
 
     // Create TaskKPIs with correct deliverable associations
-    const createdTasks = await Promise.all(
+    await Promise.all(
       taskKPIs.map(async (task: any) => {
         const associatedDeliverableId = deliverableIdMap[task.deliverableId];
 

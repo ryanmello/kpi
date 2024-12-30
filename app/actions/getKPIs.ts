@@ -21,6 +21,7 @@ export const getKPIs = async () => {
     });
     return KPI;
   } catch (error) {
+    console.log(error);
     return [];
   }
 };

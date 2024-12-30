@@ -5,7 +5,7 @@ import CreateDeliverableModal from "./components/CreateDeliverableModal";
 import DeliverableCard from "./components/DeliverableCard";
 import ProjectCard from "../components/ProjectCard";
 
-const Project = async ({ params }: { params: { projectId: string } }) => {
+const Project = async ({ params }: { params: Promise<{ projectId: string }> }) => {
   const { projectId } = await params;
   const project = (await getProjectById(projectId)) as ProjectT;
 

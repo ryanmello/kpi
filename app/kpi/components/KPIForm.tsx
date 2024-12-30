@@ -40,10 +40,10 @@ const KPIForm = ({
       });
       reset();
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Something went wrong.",
+        description: `Something went wrong. ${error.data}`,
         variant: "destructive",
       });
     }

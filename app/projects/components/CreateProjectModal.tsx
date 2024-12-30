@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,7 +37,6 @@ const formSchema = z.object({
 });
 
 const CreateProjectModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,7 +57,6 @@ const CreateProjectModal = () => {
         description: `Project "${response.data.name}" created successfully!`,
         variant: "default",
       });
-      setIsOpen(false);
       reset();
     } catch (error) {
       console.error("Error creating project:", error);

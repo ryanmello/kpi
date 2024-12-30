@@ -5,6 +5,7 @@ export const getDepartments = async () => {
     const departments = await db.department.findMany();
     return departments;
   } catch (error) {
+    console.log(error);
     return [];
   }
 };

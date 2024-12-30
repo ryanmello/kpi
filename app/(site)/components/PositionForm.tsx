@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { toast, useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 type FormData = {
   name: string;
@@ -28,17 +28,17 @@ export default function PositionForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post("/api/position/create", data);
+      await axios.post("/api/position/create", data);
       toast({
         title: "Success",
         description: "Position created successfully!",
         variant: "default",
       });
       reset();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Error creating position. Please try again.",
+        description: `Error creating position. Please try again. ${error.data}`,
         variant: "destructive",
       });
     } finally {

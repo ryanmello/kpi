@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { toast, useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 type FormData = {
   name: string;
@@ -35,10 +35,10 @@ export default function DepartmentForm() {
         variant: "default",
       });
       reset();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Error creating department. Please try again.",
+        description: `Error creating department. Please try again. ${error.data}`,
         variant: "destructive",
       });
     } finally {
