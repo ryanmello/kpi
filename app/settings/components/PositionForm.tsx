@@ -15,7 +15,7 @@ type FormData = {
   description: string;
 };
 
-export default function DepartmentForm() {
+export default function PositionForm() {
   const {
     register,
     handleSubmit,
@@ -28,17 +28,17 @@ export default function DepartmentForm() {
     setIsSubmitting(true);
 
     try {
-      await axios.post("/api/department/create", data);
+      await axios.post("/api/position/create", data);
       toast({
         title: "Success",
-        description: "Department created successfully!",
+        description: "Position created successfully!",
         variant: "default",
       });
       reset();
     } catch (error: any) {
       toast({
         title: "Error",
-        description: `Error creating department. Please try again. ${error.data}`,
+        description: `Error creating position. Please try again. ${error.data}`,
         variant: "destructive",
       });
     } finally {
@@ -47,9 +47,9 @@ export default function DepartmentForm() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card>
       <CardHeader>
-        <CardTitle>Create Department</CardTitle>
+        <CardTitle>Create Position</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -58,7 +58,7 @@ export default function DepartmentForm() {
             <Input
               id="name"
               {...register("name", { required: "Name is required" })}
-              placeholder="Enter department name"
+              placeholder="Enter position name"
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -71,7 +71,7 @@ export default function DepartmentForm() {
               {...register("description", {
                 required: "Description is required",
               })}
-              placeholder="Enter department description"
+              placeholder="Enter position description"
             />
             {errors.description && (
               <p className="text-red-500 text-sm mt-1">
@@ -80,7 +80,7 @@ export default function DepartmentForm() {
             )}
           </div>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Create Department"}
+            {isSubmitting ? "Creating..." : "Create Position"}
           </Button>
         </form>
       </CardContent>

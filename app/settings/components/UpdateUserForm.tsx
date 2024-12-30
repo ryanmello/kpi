@@ -71,7 +71,7 @@ export default function UpdateUserForm({
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card>
       <CardHeader>
         <CardTitle>Update User Information</CardTitle>
       </CardHeader>
