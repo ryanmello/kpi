@@ -21,7 +21,7 @@ export const signIn = async (values: z.infer<typeof SignInSchema>) => {
       password,
       redirectTo: DEFAULT_SIGN_IN_REDIRECT,
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":

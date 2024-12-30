@@ -64,7 +64,6 @@ const KPIForm = ({
         project.deliverables.map((deliverable) => ({
           id: deliverable.id,
           name: deliverable.name,
-          progress: deliverable.progress || 0,
           status: deliverable.status,
           comments: deliverable.comments || "",
         }))
@@ -227,18 +226,6 @@ const KPIForm = ({
                         <div>
                           <Label>Name</Label>
                           <Input {...field} type="text" />
-                        </div>
-                      )}
-                    />
-
-                    {/* Progress */}
-                    <Controller
-                      name={`deliverableKPIs.${index}.progress`}
-                      control={control}
-                      render={({ field }) => (
-                        <div>
-                          <Label>Progress</Label>
-                          <Input {...field} type="number" min={0} max={100} />
                         </div>
                       )}
                     />

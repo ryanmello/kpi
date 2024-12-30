@@ -30,16 +30,31 @@ const KPICard = async ({ params }: { params: Promise<{ kpiId: string }> }) => {
       </div>
     );
   }
+  
+  const deliverables = kpi.projectKPI.deliverables;
+
+  const deliverablesWithProgress = deliverables.map((deliverable) => {
+    const tasks = deliverable.tasks || [];
+    const progress =
+      tasks.length > 0
+        ? tasks.reduce((sum, task) => sum + (task.progress || 0), 0) /
+          tasks.length
+        : 0;
+
+    return {
+      ...deliverable,
+      progress,
+    };
+  });
 
   return (
     <div className="container mx-auto mt-8 px-4">
       <Card className="shadow-lg transition-all duration-300 hover:shadow-xl">
         <CardHeader>
-          <CardTitle>
-            Project: {kpi.projectKPI?.name}
-          </CardTitle>
+          <CardTitle>Project: {kpi.projectKPI?.name}</CardTitle>
           <CardDescription>
-            Month: {new Date(kpi.month).toLocaleString("default", {
+            Month:{" "}
+            {new Date(kpi.month).toLocaleString("default", {
               month: "long",
               year: "numeric",
             })}
@@ -73,7 +88,7 @@ const KPICard = async ({ params }: { params: Promise<{ kpiId: string }> }) => {
             </TableBody>
           </Table>
 
-          {kpi.projectKPI?.deliverables?.length > 0 && (
+          {deliverablesWithProgress.length > 0 && (
             <div className="mt-8">
               <h3 className="text-xl font-semibold mb-4">Deliverables</h3>
               <Table>
@@ -85,22 +100,15 @@ const KPICard = async ({ params }: { params: Promise<{ kpiId: string }> }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {kpi.projectKPI.deliverables.map((deliverable) => (
+                  {deliverablesWithProgress.map((deliverable) => (
                     <TableRow key={deliverable.id}>
                       <TableCell>{deliverable.name}</TableCell>
                       <TableCell>{deliverable.status}</TableCell>
                       <TableCell>
-                        {deliverable.progress !== null ? (
-                          <div className="flex items-center gap-4">
-                            <p>{deliverable.progress}%</p>
-                            <Progress
-                              value={deliverable.progress}
-                              className="w-full"
-                            />
-                          </div>
-                        ) : (
-                          "N/A"
-                        )}
+                        <div className="flex items-center gap-4">
+                          <p>{deliverable.progress}%</p>                          
+                          <Progress value={deliverable.progress} className="w-full" />
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}

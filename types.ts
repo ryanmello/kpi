@@ -13,7 +13,6 @@ export type TaskT = {
 export type DeliverableT = {
   id: string;
   name: string;
-  progress?: number | null;
   status: string;
   comments?: string | null;
   tasks: TaskT[];

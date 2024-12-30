@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
 
     const requestData = await req.json();
-    const { id, name, progress, status, comments } = requestData;
+    const { id, name, status, comments } = requestData;
 
     const deliverable = await db.deliverable.update({
       where: {
@@ -20,7 +20,6 @@ export async function POST(req: Request) {
       },
       data: {
         name,
-        progress,
         status,
         comments,
       },

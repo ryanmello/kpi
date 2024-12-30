@@ -57,7 +57,6 @@ model Project {
 model Deliverable {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  progress  Float? // summation of task progress TODO: remove progress here: can be calculate by summing task percentage
   status    String
   comments  String?
   projectId String  @db.ObjectId
@@ -89,7 +88,6 @@ model ProjectKPI {
 model DeliverableKPI {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  progress  Float?
   status    String
   comments  String?
   projectId String     @db.ObjectId

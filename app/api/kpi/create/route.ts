@@ -52,7 +52,6 @@ export async function POST(req: Request) {
         const createdDeliverable = await db.deliverableKPI.create({
           data: {
             name: deliverable.name,
-            progress: parseFloat(deliverable.progress),
             status: deliverable.status,
             comments: deliverable.comments,
             projectId: createdProjectKPI.id,
@@ -66,7 +65,6 @@ export async function POST(req: Request) {
           },
           data: {
             name: deliverable.name,
-            progress: parseFloat(deliverable.progress),
             status: deliverable.status,
             comments: deliverable.comments,
           },

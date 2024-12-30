@@ -39,7 +39,6 @@ import DeliverableTasks from "./DeliverableTasks";
 const deliverableSchema = z.object({
   name: z.string().min(2).max(50),
   status: z.enum(["Not Started", "In Progress", "Completed"]),
-  progress: z.string().min(1).max(3),
   comments: z.string().optional(),
 });
 
@@ -59,10 +58,15 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
     defaultValues: {
       name: deliverable.name,
       status: validStatus,
-      progress: deliverable.progress?.toString(),
       comments: deliverable.comments || "",
     },
   });
+
+  const progress =
+    deliverable.tasks.length > 0
+      ? deliverable.tasks.reduce((sum, task) => sum + (task.progress || 0), 0) /
+        deliverable.tasks.length
+      : 0;
 
   const { reset } = form;
 
@@ -71,7 +75,6 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
       const updatedData = {
         id: deliverable.id,
         ...data,
-        progress: Number(data.progress),
       };
 
       const response = await axios.post("/api/deliverable/update", updatedData);
@@ -177,23 +180,6 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
                   />
 
                   <FormField
-                    name="progress"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Progress (%)</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Progress"
-                            {...field}
-                            value={field.value}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
                     name="comments"
                     render={({ field }) => (
                       <FormItem>
@@ -240,9 +226,7 @@ const DeliverableCard = ({ deliverable }: { deliverable: DeliverableT }) => {
       <CardContent>
         <div className="flex justify-between items-center">
           <Badge variant="secondary">{deliverable.status}</Badge>
-          {deliverable.progress !== undefined && (
-            <span className="text-sm text-zinc-500">{`${deliverable.progress}%`}</span>
-          )}
+          <span className="text-sm text-zinc-500">{progress}%</span>
         </div>
         {deliverable.comments && (
           <p className="mt-2 text-sm text-zinc-500">{deliverable.comments}</p>
